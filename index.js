@@ -34,8 +34,8 @@ async function run() {
 
     app.get("/tasks",async(req,res)=>{
         const result=await taskCollection.find().toArray();
-        req.send(result);
-        })
+        res.send(result);
+    })
 
 
 
