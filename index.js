@@ -84,10 +84,39 @@ async function run() {
       };
       const result = await taskCollection.updateOne(query, updatedDoc);
       res.send(result);
+
+
+
+      app.patch("/tasks/:id", async (req, res) => {
+        try {
+          const taskId = req.params.id;
+          const { category } = req.body;
+      
+          if (!ObjectId.isValid(taskId)) {
+            return res.status(400).json({ message: "Invalid Task ID" });
+          }
+      
+          const result = await taskCollection.updateOne(
+            { _id: new ObjectId(taskId) },
+            { $set: { category } }
+          );
+      
+          if (result.matchedCount === 0) {
+            return res.status(404).json({ message: "Task not found" });
+          }
+      
+          res.json({ message: "Task updated successfully", result });
+        } catch (error) {
+          console.error("Error updating task:", error);
+          res.status(500).json({ message: "Internal Server Error" });
+        }
+      });
+
     });
   } finally {
   }
 }
+
 run().catch(console.dir);
 
 app.get("/", (req, res) => {
