@@ -85,7 +85,7 @@ async function run() {
       const result = await taskCollection.updateOne(query, updatedDoc);
       res.send(result);
 
-
+    });
 
       app.patch("/tasks/:id", async (req, res) => {
         try {
@@ -112,7 +112,12 @@ async function run() {
         }
       });
 
-    });
+      
+      
+      
+
+
+   
   } finally {
   }
 }
